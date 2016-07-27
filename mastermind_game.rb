@@ -37,7 +37,8 @@ class Master
       for peg in slave
         if guess[i] == peg
           whites += 1
-          slave.delete_at(slave.index(peg))#bug to be splat          break
+          slave.delete_at(slave.index(peg))
+          break
         end
       end
       i -= 1

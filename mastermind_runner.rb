@@ -5,6 +5,7 @@ class MasterRunner
   def initialize(game)
     @game = game
     @winner = false
+    @play_history = ""
     @insults = ["I see you’ve set aside this special time to humiliate yourself in public.",
 "The fact that no one understands you doesn’t mean you’re an artist.",
 "I don’t know what your problem is, but I bet it’s hard to pronounce.",
@@ -26,6 +27,7 @@ class MasterRunner
 "I bet you get bullied a lot.",
 "I like you. People say I’ve got no taste, but I like you. Just kidding, I hate you.",
 "I realize you have an inferiority complex but it’s fully justified."]
+
   end
 
   def colorize_pegs(peg_array)
@@ -54,14 +56,17 @@ class MasterRunner
     puts "\nYou have #{11-@game.turn_counter} turns remaining\n(B = blue, Y = Yellow, R = Red, G = Green)"
     input = gets.chomp
     puts "Your guess:\n\n"
-    puts colorize_pegs(@game.translate_guess(input)) + "\n"
+    print @play_history
+    output = colorize_pegs(@game.translate_guess(input)) + "\n----------------\n"
+    puts output
+    @play_history = @play_history + output
     red, white = @game.compare(@game.translate_guess(input))
     puts "\n#{red} right color, right place".green + "\n" + "#{white} right color, wrong place \n".yellow
     if red == 4
       puts "\nNOOOO, you defeated me! YOU are the true master mind"
       @winner=true
     else
-      puts "\n"
+      puts "Master:\n"
       puts @insults.sample
       puts "\n"
     end
@@ -71,11 +76,10 @@ class MasterRunner
 
   def run_game()
     @game.summon_the_master()
-    puts @game.solution
     until @winner || @game.turn_counter > 10 do
       play_turn()
     end
-    puts "Fools, you mortals shall never gain my master mind" if !@winner
+    puts "Fools, you mortals shall never gain my master mind." if !@winner
     print "My code was : #{@game.solution}\n"
   end
 end
