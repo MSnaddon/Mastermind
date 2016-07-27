@@ -16,13 +16,14 @@ class Master
   end
 
   def translate_guess(player_input)
-    return player_input.upcase.split(" ")
+    return player_input.delete(" ").upcase.split("")
   end
 
-  def compare(guess)
+  def compare(input)
     reds = 0
     whites = 0
     slave = @solution.clone
+    guess = input.clone
     i = guess.size-1
     while i>=0
       if guess[i]==slave[i]

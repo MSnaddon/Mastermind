@@ -52,15 +52,29 @@ class MasterRunner
     return output1 + "\n" + output2
   end
 
+  def get_valid_input
+    valid = false
+    until(valid)
+    
+      input = @game.translate_guess(gets.chomp)
+      if input.count == 4
+        valid = true
+      else
+        puts "Oops, you need 4 pegs!"
+      end
+    end
+    return input
+  end
+
   def play_turn()
     puts "\nYou have #{11-@game.turn_counter} turns remaining\n(B = blue, Y = Yellow, R = Red, G = Green)"
-    input = gets.chomp
+    input = get_valid_input()
+    red, white = @game.compare(input)
     puts "Your guess:\n\n"
     print @play_history
-    output = colorize_pegs(@game.translate_guess(input)) + "\n----------------\n"
-    puts output
+    output = colorize_pegs(input) + "√".green*red + "o".yellow*white + "\n----------------\n"
+    puts output 
     @play_history = @play_history + output
-    red, white = @game.compare(@game.translate_guess(input))
     puts "\n#{red} right color, right place".green + "\n" + "#{white} right color, wrong place \n".yellow
     if red == 4
       puts "\nNOOOO, you defeated me! YOU are the true master mind"
@@ -80,7 +94,7 @@ class MasterRunner
       play_turn()
     end
     puts "Fools, you mortals shall never gain my master mind." if !@winner
-    print "My code was : #{@game.solution}\n"
+    print "My code was :\n#{colorize_pegs(@game.solution)}\n"
   end
 end
 
