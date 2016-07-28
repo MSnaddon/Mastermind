@@ -36,17 +36,17 @@ class MasterRunner
     for i in 0..peg_array.size-1
       case peg_array[i]
       when "R"
-        output1 += "/\\  ".red
-        output2 += "\\/  ".red
+        output1 += "/\\   ".light_red
+        output2 += "\\/   ".light_red
       when "G"
-        output1 += "/\\  ".green
-        output2 += "\\/  ".green
+        output1 += "/\\   ".light_green
+        output2 += "\\/   ".light_green
       when "Y"
-        output1 += "/\\  ".yellow
-        output2 += "\\/  ".yellow
+        output1 += "/\\   ".light_yellow
+        output2 += "\\/   ".light_yellow
       when "B"
-        output1 += "/\\  ".blue
-        output2 += "\\/  ".blue
+        output1 += "/\\   ".light_blue
+        output2 += "\\/   ".light_blue
       end
     end
     return output1 + "\n" + output2
@@ -55,12 +55,11 @@ class MasterRunner
   def get_valid_input
     valid = false
     until(valid)
-    
       input = @game.translate_guess(gets.chomp)
-      if input.count == 4
+      if input.count == 6
         valid = true
       else
-        puts "Oops, you need 4 pegs!"
+        puts "Oops, you need 6 pegs!"
       end
     end
     return input
@@ -72,12 +71,12 @@ class MasterRunner
     red, white = @game.compare(input)
     puts "Your guess:\n\n"
     print @play_history
-    output = colorize_pegs(input) + "√".green*red + "o".yellow*white + "\n----------------\n"
+    output = colorize_pegs(input) + "√".green*red + "o".yellow*white + "\n----------------------------\n"
     puts output 
     @play_history = @play_history + output
     puts "\n#{red} right color, right place".green + "\n" + "#{white} right color, wrong place \n".yellow
-    if red == 4
-      puts "\nNOOOO, you defeated me! YOU are the true master mind"
+    if red == 6
+      puts "\nMaster:\nNOOOO, you defeated me! YOU are the true master mind!"
       @winner=true
     else
       puts "Master:\n"
@@ -89,6 +88,9 @@ class MasterRunner
   end
 
   def run_game()
+    puts "Master:\nMwahahahaha, so you mortals seek to challenge my mind! Hah, you haven't got a chance! You have 10 guesses to crack my code but only because you'll have to give up eventually! Nyhehehe."
+
+    puts"\nThe master has challenged you to guess his code of 6 colours. Can you crack his code?" 
     @game.summon_the_master()
     until @winner || @game.turn_counter > 10 do
       play_turn()

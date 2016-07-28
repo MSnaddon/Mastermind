@@ -10,7 +10,7 @@ class Master
 
   def summon_the_master()
     peg_array = ["B","Y","G","R"]
-    for i in 0..3
+    for i in 0..5
       @solution.push(peg_array[rand(0..3)])
     end
   end
